@@ -1,0 +1,8 @@
+{"port":8080, "mongoUri":"mongodb+srv://gretchenko:ZlTXYzDNI1LlPWH6@cluster0.afibias.mongodb.net/?retryWrites=true&w=majority",
+
+"accessSecret":"super secret from backend",
+"refreshSecret":"super refresh key"
+}
+
+
+
