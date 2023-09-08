@@ -3,9 +3,9 @@ import TextField from "./textField";
 import { validate } from "./utils/validator";
 import { validationSchema } from "./utils/validatorScheme";
 import FormLayout from "./formLayout";
-import { useAuth } from "./userAuth";
+
 import { signUp } from "./store/users";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+
 import { useDispatch } from "react-redux";
 const RegistrationForm = () => {
   const [errors, setErrors] = useState({});
@@ -14,9 +14,9 @@ const RegistrationForm = () => {
     password: "",
     name: "",
   });
-  const history = useHistory();
+
   const dispatch = useDispatch();
-  // const { signUp } = useAuth();
+
   useEffect(() => {
     const errors = validate(values, validationSchema);
     setErrors(errors);
@@ -30,8 +30,6 @@ const RegistrationForm = () => {
         ...values,
       };
       dispatch(signUp(newData));
-      //  signUp(newData);
-      // history.push("/");
     }
   };
   const handleChange = (e) => {

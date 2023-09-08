@@ -33,14 +33,6 @@ const analiseSlice = createSlice({
     analiseRemoved: (state, action) => {
       state.entities = state.entities.filter((c) => c._id !== action.payload);
     },
-    // analiseRemoved: (state, action) => {
-    //   state.entities = state.entities.filter((c) => c._id !== action.payload);
-    // },
-    // projectUpdateSuccessed: (state, action) => {
-    //   state.entities[
-    //     state.entities.findIndex((u) => u._id === action.payload._id)
-    //   ] = action.payload;
-    // },
   },
 });
 
@@ -52,7 +44,6 @@ const {
   analiseCreated,
   analiseUpdateSuccessed,
   analiseRemoved,
-  // analiseUpdateSuccessed,
 } = actions;
 
 const addAnaliseRequested = createAction("analise/addAnaliseRequested");
@@ -60,8 +51,6 @@ const analiseUpdateRequested = createAction("analise/analiseUpdateRequested");
 const analiseUpdateFailed = createAction("analise/analiseUpdateFailed");
 const removeAnaliseRequested = createAction("analise/removeAnaliseRequested");
 
-// const analiseUpdateRequested = createAction("analise/analiseUpdateRequested");
-// const analiseUpdateFailed = createAction("analise/analiseUpdateFailed");
 export const loadAnaliseList = (userId) => async (dispatch) => {
   dispatch(analiseRequested());
   try {
@@ -120,41 +109,9 @@ export const updateAnalise = (payload, id) => async (dispatch) => {
     const { content } = await analiseService.update(payload, id);
     console.log(content);
     dispatch(analiseUpdateSuccessed(content));
-    // history.push(`/users/${content._id}`);
   } catch (error) {
     dispatch(analiseUpdateFailed(error.message));
   }
 };
 
-// export const updateProject = (payload, id) => async (dispatch) => {
-//   console.log(payload);
-//   dispatch(projectUpdateRequested());
-
-//   try {
-//     const { content } = await projectService.update(payload, id);
-//     console.log(content);
-//     dispatch(projectUpdateSuccessed(content));
-//     // history.push(`/users/${content._id}`);
-//   } catch (error) {
-//     console.log("Jib,jxrf");
-//     dispatch(projectUpdateFailed(error.message));
-//   }
-// };
-
-// export const getProjects = () => (state) => state.projects.entities;
-
-// export const getProjectsById = (userId) => (state) => {
-//   if (state.projects.entities) {
-//     return state.projects.entities.filter((u) => u.userId === userId);
-//   }
-// };
-
-// export const getOneProjectsById = (id) => (state) => {
-//   if (state.projects.entities) {
-//     return state.projects.entities.find((pr) => pr._id === id);
-//   }
-// };
-
-// export const getProjectsLoadingStatus = () => (state) =>
-//   state.projects.isLoading;
 export default analiseReducer;

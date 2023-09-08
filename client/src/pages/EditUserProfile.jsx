@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import TextField from "../textField";
 
 import { validate } from "../utils/validator";
-// import { validationSchema } from "./utils/validatorScheme";
+
 import { validationSchema } from "../utils/validatorScheme";
 import FormLayout from "../formLayout";
 
@@ -17,7 +17,7 @@ const EditUserProfile = () => {
   const currentUser = useSelector(getUserById(userId));
   const history = useHistory();
   const dispatch = useDispatch();
-  // const { signUp } = useAuth();
+
   useEffect(() => {
     const errors = validate(values, validationSchema);
     setErrors(errors);
@@ -32,8 +32,6 @@ const EditUserProfile = () => {
           ...values,
         })
       );
-      //  signUp(newData);
-      // history.push("/");
     }
   };
   const handleChange = (e) => {
@@ -45,18 +43,12 @@ const EditUserProfile = () => {
   };
 
   useEffect(() => {
-    // if (currentUser && !values) {
-    //   setValues({
-    //     ...currentUser,
-    //   });
-    // }
-
     setValues({
       ...currentUser,
     });
   }, [currentUser]);
 
-  const { email, password, name } = values;
+  const { email, name } = values;
   console.log(currentUser);
   console.log(values);
   return (

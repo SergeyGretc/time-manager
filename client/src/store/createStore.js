@@ -1,5 +1,3 @@
-// import { configureStore } from "@reduxjs/toolkit";
-// import { combineReducers } from "@reduxjs/toolkit";
 import analiseReducer from "./analise";
 import projectsReducer from "./projects";
 import usersReducer from "./users";

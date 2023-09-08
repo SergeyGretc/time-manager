@@ -3,7 +3,7 @@ import TextField from "../textField";
 import { validate } from "../utils/validator";
 import { validationSchema } from "../utils/validatorScheme";
 import FormLayout from "../formLayout";
-import { useAuth } from "../userAuth";
+
 import { logIn } from "../store/users";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useDispatch } from "react-redux";
@@ -14,7 +14,7 @@ const LoginForm = () => {
     password: "",
   });
   const [enterError, setEnterError] = useState(null);
-  // const { logIn } = useAuth();
+
   const dispatch = useDispatch();
   useEffect(() => {
     const errors = validate(values, validationSchema);
@@ -27,11 +27,6 @@ const LoginForm = () => {
     if (isValid) {
       const newData = { ...values };
       dispatch(logIn(newData));
-      // await logIn(newData);
-
-      // history.push(
-      //   history.location.state ? history.location.state.from.pathname : "/"
-      // );
     }
   };
   const handleChange = (e) => {

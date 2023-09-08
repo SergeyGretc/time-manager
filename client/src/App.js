@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import TemaChange from "./temaChange";
+import React from "react";
+
 import { Route } from "react-router-dom";
-import NotFound from "./notFound";
+
 import MainPage from "./pages/MainPage";
 import EditForm from "./pages/editForm";
 import Login from "./pages/LoginPage";
@@ -20,10 +20,9 @@ import Toggle from "./Toogle";
 
 function App() {
   const [theme, themeToggler, mountedComponent] = useDarkMode();
-  // console.log(theme);
+
   const themeMode = theme === "light" ? lightTheme : darkTheme;
   if (!mountedComponent) return <div />;
-  // const theme = localStorage.getItem("theme");
 
   return (
     <div className="App">
@@ -41,9 +40,6 @@ function App() {
             <Route exact path="/login/:type?" component={Login} />
             <Route path="/logout" component={LogOut} />
             <Route exact path="/createtask" component={EditForm} />
-            {/* <Route exact path="/temaChange" component={TemaChange} /> */}
-
-            {/* <Route component={NotFound} /> */}
           </>
         </ThemeProvider>
       </AppLoader>

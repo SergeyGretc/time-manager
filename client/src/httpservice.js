@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import configFile from "./config.json";
-import { httpAuth } from "./userAuth";
+
 import localStorageService from "./localStorageService";
 import authService from "./store/auth.service";
 
@@ -13,7 +13,7 @@ http.interceptors.request.use(
   async function (config) {
     const expiresDate = localStorageService.getExpiresToken();
     const refreshToken = localStorageService.getRefreshToken();
-    //Если не работает, поменять знак на больше
+
     const isExpired = refreshToken && expiresDate < Date.now();
     if (configFile.isFireBase) {
       const containSlash = /\/$/gi.test(config.url);

@@ -91,7 +91,6 @@ export const updateProject = (payload, id) => async (dispatch) => {
     const { content } = await projectService.update(payload, id);
     console.log(content);
     dispatch(projectUpdateSuccessed(content));
-    // history.push(`/users/${content._id}`);
   } catch (error) {
     dispatch(projectUpdateFailed(error.message));
   }

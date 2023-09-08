@@ -9,8 +9,7 @@ import {
   getProjectsLoadingStatus,
   loadProjectsList,
 } from "../store/projects";
-import { useProjects } from "../useProjects";
-import { useAnaliseProjects } from "../useAnaliseProject";
+
 import icon from "./arrow-right-circle.svg";
 import stop from "./stop-circle-fill.svg";
 import { getCurrentUserId, loadUsersList } from "../store/users";
@@ -53,17 +52,9 @@ const Timer = () => {
   }, [data]);
   useEffect(() => {
     if (data.projectName) {
-      // const getAnaliseData = getAllAnalise.find(
-      //   (el) => el.projectName === data.projectName
-      // );
-
-      // console.log(data.projectName);
-
       setCurrentAnaliseData();
     }
   }, [data]);
-
-  // console.log(getAnaliseData);
 
   useEffect(() => {
     if (getAllProjects) {
@@ -80,8 +71,6 @@ const Timer = () => {
 
       setDataProjectsNew(arr);
     }
-
-    // console.log(dataProjectsNew);
   }, [isLoading]);
 
   useEffect(() => {
@@ -131,7 +120,6 @@ const Timer = () => {
   };
 
   const setCurrentAnaliseData = () => {
-    // console.log(getAnaliseData[0]);
     if (!getAnaliseData) {
       setSec(0);
       setMin(0);
@@ -197,12 +185,9 @@ const Timer = () => {
       };
       dispatch(createAnalise({ ...newData, pageId: userId }));
     }
-
-    // console.log({ ...newData, pageId: userId });
   };
 
   if (dataProjectsNew) {
-    // console.log(dataProjectsNew);
     return (
       <FormLayout title="Таймер">
         <div className="container text-center ">

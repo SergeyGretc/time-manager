@@ -1,19 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
-import { useAuth } from "./userAuth";
+
 import NavProfile from "./NavProfile";
 import { useSelector } from "react-redux";
 import { getIsLoggedIn } from "./store/users";
-import { useDarkMode } from "./hooks/useDarkMode";
-import Toggle from "./Toogle";
-import { darkTheme, lightTheme } from "./utils/themes";
 
 const MainNavbar = () => {
-  // const { currentUser } = useAuth();
-  // console.log(currentUser);
-  // const currentUserId = useSelector(getCurrentUserId());
-  // const currentUser = useSelector(getUserById(currentUserId));
-
   const isLoggedIn = useSelector(getIsLoggedIn());
 
   return (
@@ -59,15 +51,6 @@ const MainNavbar = () => {
                       Аналитика
                     </Link>
                   </li>
-                  {/* <li className="nav-item">
-                    <Link
-                      className="nav-link active"
-                      aria-current="page"
-                      to="/temaChange"
-                    >
-                      Изменение темы
-                    </Link>
-                  </li> */}
                 </>
               )}
             </ul>

@@ -1,5 +1,4 @@
 import httpService from "./httpservice";
-import localStorageService from "./localStorageService";
 
 const projectEndpoint = "projects/";
 export const projectService = {

@@ -5,36 +5,18 @@ import { validate } from "../utils/validator";
 import { validationSchema } from "./editorValidationForm";
 import SelectField from "../selectField";
 
-import {
-  levelTypeList,
-  giftList,
-  yesNoOptions,
-  agreements,
-} from "../utils/fieldOptions";
+import { levelTypeList, yesNoOptions } from "../utils/fieldOptions";
 import RadioField from "../radioField";
-import MultiSelect from "../multiSelect";
-import CheckboxField from "../checkbox";
-import axios from "axios";
-import httpService from "../httpservice";
-import { createTask } from "../api/request";
-import { useProjects } from "../useProjects";
+
 import { useDispatch, useSelector } from "react-redux";
 import { createProject } from "../store/projects";
-import {
-  getCurrentUserId,
-  getIsLoggedIn,
-  getUserById,
-  inState,
-} from "../store/users";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { getCurrentUserId, inState } from "../store/users";
 
 const EditForm = () => {
   const [values, setValues] = useState({
     projectName: "",
     level: "",
     priority: "",
-    // gifts: [],
-    // agreement: [],
   });
   const [errors, setErrors] = useState({});
   const isValid = Object.keys(errors).length === 0;
@@ -43,8 +25,6 @@ const EditForm = () => {
   const state = useSelector(inState());
   console.log(state);
 
-  // const id = Date.now();
-  // const { createProject } = useProjects();
   const dispatch = useDispatch();
 
   const clearForm = () => {
@@ -53,8 +33,6 @@ const EditForm = () => {
 
       level: "",
       priority: "",
-      // gifts: [],
-      // agreement: [],
     });
     setErrors({});
   };
@@ -63,16 +41,12 @@ const EditForm = () => {
     if (isValid) {
       const newData = {
         ...values,
-        // _id: id,
       };
-      // createProject(newData);
+
       console.log(userId);
       dispatch(createProject({ ...newData, pageId: userId }));
 
       clearForm();
-
-      // await addTask(newData);
-      // history.push("/projects");
     }
   };
   const handleChange = (e) => {
@@ -115,21 +89,7 @@ const EditForm = () => {
           onChange={handleChange}
           error={errors.priority}
         />
-        {/* <MultiSelect
-          options={giftList}
-          onChange={handleChange}
-          value={values.gifts || []}
-          name="gifts"
-          label="Выберите подарок"
-        /> */}
-        {/* <CheckboxField
-          name="agreement"
-          label="Подтвердите согласие"
-          options={agreements}
-          onChange={handleChange}
-          value={values.agreement || []}
-          error={errors.agreement}
-        /> */}
+
         <button
           className="btn btn-primary w-100 mx-auto"
           type="submit"

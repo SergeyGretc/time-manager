@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-
-import { projectService } from "./project.service";
-import { useProjects } from "./useProjects";
 import {
-  getProjects,
   getProjectsById,
   getProjectsLoadingStatus,
   loadProjectsList,
@@ -102,23 +98,6 @@ const Projects = () => {
                 </td>
               </tr>
             </tbody>
-
-            // <div className="d-flex mb-3">
-            //   <p className=" p-2" key={i}>
-            //
-            //   </p>
-            //   <p className="me-auto p-2" key={i}>
-            //     {el.projectName}
-            //   </p>
-            //   <button className=" p-2" onClick={() => handleTaskEditor(el._id)}>
-            //     {" "}
-            //     Редактировать
-            //   </button>
-            // <button className=" p-2" onClick={() => handleRemoveTask(el._id)}>
-            //   {" "}
-            //   Удалить
-            // </button>
-            // </div>
           ))}
         </table>
       </div>

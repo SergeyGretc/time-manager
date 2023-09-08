@@ -1,14 +1,13 @@
-import React, { useEffect, useState, PureComponent } from "react";
+import React, { useEffect, useState } from "react";
 import { paginate } from "../utils/paginate";
-import SortSelect from "../SortSelector";
-import { useAnaliseProjects } from "../useAnaliseProject";
+
 import Pagination from "../pagination";
 import _ from "lodash";
 import GroupList from "../groupList";
 import { ResponsiveContainer, PieChart, Pie, Legend } from "recharts";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUserId } from "../store/users";
-import { loadProjectsList } from "../store/projects";
+
 import {
   getAnaliseById,
   loadAnaliseList,
@@ -33,17 +32,9 @@ const AnaliseList = () => {
   const [filter, setFilter] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortSign, setSortSign] = useState("secDECS");
-  // const [sortSign, setSortSign] = useState("");
+
   const [sortProjects, setSortProjects] = useState(null);
   const pageSize = 2;
-
-  // const Projects = () => {
-  //   const userId = useSelector(getCurrentUserId());
-  //   const dispatch = useDispatch();
-
-  //   useEffect(() => {
-  //     dispatch(loadProjectsList(userId));
-  //   }, []);
 
   const userId = useSelector(getCurrentUserId());
   const dispatch = useDispatch();
@@ -64,27 +55,6 @@ const AnaliseList = () => {
     setSortProjects(findOption.sort(allAnaliseProjects));
   }, [sortSign]);
 
-  // const { getAllAnaliProjects } = useAnaliseProjects();
-  // useEffect(() => {
-  //   const allAnaliseProjects = getAllAnaliProjects().then((res) =>
-  //     setData(res)
-  //   );
-  // }, []);
-
-  // useEffect(() => {
-  //   // const findOption = sortOptions.find(({ value }) => value === sortSign);
-
-  //   if (findOption) {
-  //     setSortProjects(findOption.sort(allAnaliseProjects));
-  //     console.log("Проблема1");
-  //   } else {
-  //     // Если не нашли то просто устанавливаем продукты
-  //     setSortProjects(allAnaliseProjects);
-  //     console.log("Проблема2");
-  //   }
-  //   console.log(sortProjects);
-  // }, [sortSign]);
-
   const handleFilterChange = (filter) => {
     setFilter(filter);
     const newData = allAnaliseProjects.filter(
@@ -95,7 +65,7 @@ const AnaliseList = () => {
     setCurrentPage(1);
   };
   const handleReset = () => {
-    setFilter([]); // Ничего не устанавливаем (undefined)
+    setFilter([]);
     setFilteredData(null);
   };
 
@@ -108,14 +78,8 @@ const AnaliseList = () => {
   const handleChangeSortSign2 = () => {
     if (sortSign === "secDECS") {
       setSortSign("secASC");
-      // const findOption = sortOptions.find(({ value }) => value === sortSign);
-      // setSortProjects(findOption.sort(allAnaliseProjects));
-      // console.log(sortProjects);
-      // console.log(sortSign);
     } else {
       setSortSign("secDECS");
-      // const findOption = sortOptions.find(({ value }) => value === sortSign);
-      // setSortProjects(findOption.sort(allAnaliseProjects));
     }
   };
   const typeOfIcon = () => {
@@ -130,8 +94,6 @@ const AnaliseList = () => {
   };
 
   if (allAnaliseProjects.length) {
-    // console.log(allAnaliseProjects);
-    // console.log(filteredData);
     console.log(sortSign);
     const count = filteredData
       ? filteredData.length
@@ -141,18 +103,7 @@ const AnaliseList = () => {
       : sortProjects
       ? paginate(sortProjects, currentPage, pageSize)
       : paginate(allAnaliseProjects, currentPage, pageSize);
-    // const pageLists = filteredData
-    //   ? filteredData
-    //   : sortProjects
-    //   ? sortProjects
-    //   : allAnaliseProjects;
-    // const pageLists1 = paginate(allAnaliseProjects, currentPage, pageSize);
-    // const pageLists2 = paginate(sortProjects, currentPage, pageSize);
-    // const pageLists3 = paginate(filteredData, currentPage, pageSize);
-    // console.log(pageLists);
-    // console.log(count);
-    // console.log(filteredData);
-    // console.log(sortProjects);
+
     const items = allAnaliseProjects.map((el) => el.projectName);
     const uniqItems = [...new Set(items)];
 
@@ -185,14 +136,7 @@ const AnaliseList = () => {
             </ResponsiveContainer>
           </div>
           <div className="container mt-t">
-            <div>
-              {/* Компонент выбора признака сортировки */}
-              {/* <SortSelect
-                value={sortSign}
-                options={sortOptions}
-                onSort={handleChangeSortSign}
-              /> */}
-            </div>
+            <div></div>
           </div>
         </div>
         <div>

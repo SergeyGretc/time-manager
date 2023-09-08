@@ -13,7 +13,6 @@ const AppLoader = ({ children }) => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(getIsLoggedIn());
   const usersStatusLoading = useSelector(getUsersLoadingStatus());
-  // const userId = isLoggedIn ? useSelector(getCurrentUserId()) : "";
 
   useEffect(() => {
     dispatch(loadUsersList());

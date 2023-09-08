@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useAuth } from "./userAuth";
+import React, { useState } from "react";
+
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { useSelector } from "react-redux";
-import { getCurrentUserId, getIsLoggedIn, getUserById } from "./store/users";
+import { getCurrentUserId, getUserById } from "./store/users";
 const NavProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
-  // const currentUserId = useSelector(getCurrentUserId());
-  // const currentUser = useSelector(getUserById(currentUserId));
-  // console.log(currentUser);
-  // const [data, setData] = useState({});
-  const isLoggedIn = useSelector(getIsLoggedIn());
+
   const currentUserId = useSelector(getCurrentUserId());
 
   const currentUser = useSelector(getUserById(currentUserId));
@@ -18,11 +14,6 @@ const NavProfile = () => {
     setIsOpen((prevState) => !prevState);
   };
 
-  // useEffect(() => {
-  //   setData(currentUser);
-  // }, [isLoggedIn]);
-
-  // console.log(currentUser);
   if (currentUser) {
     return (
       <div className="dropdown" onClick={toggleMenu}>

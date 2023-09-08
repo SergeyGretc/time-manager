@@ -11,8 +11,7 @@ import {
   agreements,
 } from "../utils/fieldOptions";
 import RadioField from "../radioField";
-import MultiSelect from "../multiSelect";
-import CheckboxField from "../checkbox";
+
 import { useDispatch, useSelector } from "react-redux";
 import { getOneProjectsById, updateProject } from "../store/projects";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";

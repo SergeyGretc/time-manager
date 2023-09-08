@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import RegistrationForm from "../RegistrationForm";
-import { getEpisodes } from "../api/request";
 
 const Login = () => {
-  // console.log(process.env.REACT_APP_FIREBASE_KEY);
   const { type } = useParams();
   const [formType, setFormType] = useState(
     type === "register" ? type : "login"
@@ -15,10 +13,6 @@ const Login = () => {
       prevState === "register" ? "login" : "register"
     );
   };
-
-  useEffect(() => {
-    getEpisodes().then((data) => {});
-  }, []);
 
   return (
     <div>
