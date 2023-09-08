@@ -6,7 +6,6 @@ import { validate } from "../utils/validator";
 import { validationSchema } from "../utils/validatorScheme";
 import FormLayout from "../formLayout";
 
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUserId, getUserById, updateUser } from "../store/users";
 const EditUserProfile = () => {
@@ -15,7 +14,7 @@ const EditUserProfile = () => {
 
   const userId = useSelector(getCurrentUserId());
   const currentUser = useSelector(getUserById(userId));
-  const history = useHistory();
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -49,8 +48,7 @@ const EditUserProfile = () => {
   }, [currentUser]);
 
   const { email, name } = values;
-  console.log(currentUser);
-  console.log(values);
+
   return (
     <FormLayout title="Персональные данные">
       <form onSubmit={handleSubmit}>
@@ -76,7 +74,7 @@ const EditUserProfile = () => {
           className="btn btn-primary w-100 mx-auto"
           disabled={!isValid}
         >
-          Отправить
+          Сохранить
         </button>
       </form>
     </FormLayout>

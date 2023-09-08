@@ -4,12 +4,7 @@ import TextField from "../textField";
 import { validate } from "../utils/validator";
 import { validationSchema } from "./editorValidationForm";
 import SelectField from "../selectField";
-import {
-  levelTypeList,
-  giftList,
-  yesNoOptions,
-  agreements,
-} from "../utils/fieldOptions";
+import { levelTypeList, yesNoOptions } from "../utils/fieldOptions";
 import RadioField from "../radioField";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -32,8 +27,7 @@ const EditorForOneTask = () => {
       };
       console.log(newData);
       console.log(values);
-      // await addTask(newData);
-      // history.push("/projects");
+
       dispatch(
         updateProject(
           {
@@ -95,23 +89,9 @@ const EditorForOneTask = () => {
           onChange={handleChange}
           error={errors.priority}
         />
-        {/* <MultiSelect
-          options={giftList}
-          onChange={handleChange}
-          value={values.gifts || []}
-          name="gifts"
-          label="Выберите подарок"
-        />
-        <CheckboxField
-          name="agreement"
-          label="Подтвердите согласие"
-          options={agreements}
-          onChange={handleChange}
-          value={values.agreement || []}
-          error={errors.agreement}
-        /> */}
+
         <button className="btn btn-primary w-100 mx-auto" type="submit">
-          Создать
+          Сохранить
         </button>
       </form>
     </FormLayout>

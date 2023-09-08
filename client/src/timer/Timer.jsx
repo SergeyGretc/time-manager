@@ -3,16 +3,11 @@ import SelectField from "../selectField";
 import { useState } from "react";
 import FormLayout from "../formLayout";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getProjects,
-  getProjectsById,
-  getProjectsLoadingStatus,
-  loadProjectsList,
-} from "../store/projects";
+import { getProjectsById, getProjectsLoadingStatus } from "../store/projects";
 
 import icon from "./arrow-right-circle.svg";
 import stop from "./stop-circle-fill.svg";
-import { getCurrentUserId, loadUsersList } from "../store/users";
+import { getCurrentUserId } from "../store/users";
 import {
   createAnalise,
   getAnaliseById,
@@ -26,7 +21,7 @@ const Timer = () => {
     projectName: "",
   });
   const [values, setValues] = useState({});
-  const [dataProjects, setDataProjects] = useState([]);
+
   const [dataProjectsNew, setDataProjectsNew] = useState([]);
   const [sec, setSec] = useState(0);
   const [min, setMin] = useState(0);
@@ -97,6 +92,14 @@ const Timer = () => {
     }
   }, [sec]);
 
+  const buttonInvalidClass = () => {
+    if (data.projectName) {
+      return " btn-primary ";
+    }
+
+    return " btn-secondary disabled";
+  };
+
   function statrSec() {
     return setInterval(() => {
       setSec((prev) => (prev = prev + 1));
@@ -104,10 +107,12 @@ const Timer = () => {
   }
   const secondsTimer = (e) => {
     e.preventDefault();
-    if (start === false) {
-      setStart((prev) => !prev);
-      let a = statrSec();
-      setKey(a);
+    if (data.projectName) {
+      if (start === false) {
+        setStart((prev) => !prev);
+        let a = statrSec();
+        setKey(a);
+      }
     }
   };
   const stopAddSeconds = (e) => {
@@ -168,7 +173,7 @@ const Timer = () => {
         sec,
         min,
       };
-      console.log(newData);
+
       dispatch(
         updateAnalise(
           {
@@ -185,6 +190,12 @@ const Timer = () => {
       };
       dispatch(createAnalise({ ...newData, pageId: userId }));
     }
+
+    setData("");
+    setSec(0);
+    setMin(0);
+    setVarSec("00");
+    setVarMin("00");
   };
 
   if (dataProjectsNew) {
@@ -192,8 +203,18 @@ const Timer = () => {
       <FormLayout title="Таймер">
         <div className="container text-center ">
           <span className="text-center p-1 fs-4 align-bottom">{`${varMin} : ${varSec}`}</span>
-          <img src={icon} onClick={secondsTimer} className=" p-1 " />
-          <img src={stop} onClick={stopAddSeconds} className=" p-1" />
+          <img
+            src={icon}
+            onClick={secondsTimer}
+            className=" p-1 "
+            alt="Старт"
+          />
+          <img
+            src={stop}
+            onClick={stopAddSeconds}
+            className=" p-1"
+            alt="Стоп"
+          />
         </div>
 
         <SelectField
@@ -207,7 +228,7 @@ const Timer = () => {
 
         <form onSubmit={handleSubmit} className="text-center">
           <button
-            className="btn btn-primary w-40 mx-auto  text-center"
+            className={"btn  w-40 mx-auto text-center " + buttonInvalidClass()}
             type="submit"
           >
             Сохранить потраченное время

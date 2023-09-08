@@ -16,6 +16,7 @@ const AppLoader = ({ children }) => {
 
   useEffect(() => {
     dispatch(loadUsersList());
+
     if (isLoggedIn) {
       const userId = localStorageService.getUserId();
       dispatch(loadProjectsList(userId));

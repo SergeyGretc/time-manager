@@ -90,6 +90,7 @@ export const logIn = (payload) => async (dispatch) => {
     const data = await authService.login({ email, password });
     localStorageService.setTokens(data);
     dispatch(authRequestSuccess({ userId: data.userId }));
+    history.push("/");
   } catch (error) {
     dispatch(authRequestFailed(error.message));
   }
@@ -101,6 +102,7 @@ export const signUp = (payload) => async (dispatch) => {
     const data = await authService.register(payload);
     localStorageService.setTokens(data);
     dispatch(authRequestSuccess({ userId: data.userId }));
+    history.push("/");
   } catch (error) {
     dispatch(authRequestFailed(error.message));
   }
@@ -109,8 +111,8 @@ export const updateUser = (payload) => async (dispatch) => {
   dispatch(userUpdateRequested());
   try {
     const { content } = await userService.update(payload);
+
     dispatch(userUpdateSuccessed(content));
-    // history.push(`/users/${content._id}`);
   } catch (error) {
     dispatch(userUpdateFailed(error.message));
   }

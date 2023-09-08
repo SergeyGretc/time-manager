@@ -23,7 +23,7 @@ router
         ...req.body,
         userId: req.user._id,
       });
-      //   console.log(chalk.red(req.body.sec));
+
       res.status(201).send(newAnalise);
     } catch (e) {
       res

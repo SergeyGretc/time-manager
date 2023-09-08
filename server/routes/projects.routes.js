@@ -44,7 +44,7 @@ router.patch("/:projectId", auth, async (req, res) => {
         new: true,
       }
     );
-    // console.log(chalk.red(updatedProject));
+
     res.send(updatedProject);
   } catch (e) {
     res
@@ -60,8 +60,6 @@ router.delete("/:projectId", auth, async (req, res) => {
     const removedProject = await Projects.findById(projectId);
 
     if (removedProject.userId.toString() === req.user._id) {
-      // await removedProject.removeAllListeners();
-      // Projects.remove({ ...removedProject });
       Projects.collection.deleteOne({
         projectName: removedProject.projectName,
       });
