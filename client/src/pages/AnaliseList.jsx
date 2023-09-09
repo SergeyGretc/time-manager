@@ -4,7 +4,7 @@ import { paginate } from "../utils/paginate";
 import Pagination from "../pagination";
 import _ from "lodash";
 import GroupList from "../groupList";
-import { ResponsiveContainer, PieChart, Pie, Legend } from "recharts";
+import { ResponsiveContainer, PieChart, Pie } from "recharts";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUserId } from "../store/users";
 
@@ -72,9 +72,7 @@ const AnaliseList = () => {
   const handlePageChange = (currentPage) => {
     setCurrentPage(currentPage);
   };
-  const handleChangeSortSign = (e) => {
-    setSortSign(e.target.value);
-  };
+
   const handleChangeSortSign2 = () => {
     if (sortSign === "secDECS") {
       setSortSign("secASC");
@@ -152,9 +150,10 @@ const AnaliseList = () => {
                     src={typeOfIcon()}
                     onClick={handleChangeSortSign2}
                     className=" p-1 "
+                    alt="сортировка"
                   />
                 </th>
-                <th scope="col"></th>
+                <th scope="col">Общее время</th>
               </tr>
             </thead>
             <tbody>

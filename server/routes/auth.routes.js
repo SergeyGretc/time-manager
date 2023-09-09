@@ -5,7 +5,7 @@ const Users = require("../models/user");
 const tokenService = require("../services/token.service");
 const token = require("../models/token");
 const router = express.Router({ mergeParams: true });
-
+const chalk = require("chalk");
 router.post("/signUp", [
   check("email", "Некорректный email").isEmail(),
   check("password", "Минимальная длина пароля 8 символов").isLength({ min: 8 }),
@@ -104,7 +104,7 @@ router.post("/signInWithPassword", [
 ]);
 
 function isTokenInvalid(data, dbToken) {
-  return !data || !dbToken || data._id !== dbToken.user?.toString();
+  return !data || !dbToken;
 }
 
 router.post("/token", async (req, res) => {
