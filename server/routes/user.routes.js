@@ -5,9 +5,8 @@ const router = express.Router({ mergeParams: true });
 const chalk = require("chalk");
 router.patch("/:userId", auth, async (req, res) => {
   try {
-    console.log(chalk.green("MongoDB connected"));
     const { userId } = req.params;
-    console.log(chalk.red(userId));
+
     if (userId === req.user._id) {
       const updatedUser = await Users.findByIdAndUpdate(userId, req.body, {
         new: true,

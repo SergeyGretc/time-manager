@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.css";
-import App from "./App";
-import { createStore } from "./store/createStore";
+import App from "./app/App";
+import { createStore } from "./app/store/createStore";
 import { Provider } from "react-redux";
 import { Router } from "react-router-dom";
-import history from "./utils/history";
+import history from "./app/utils/history";
 
 const store = createStore();
 

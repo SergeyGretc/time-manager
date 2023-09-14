@@ -35,9 +35,9 @@ router
 router.patch("/:analiseId", auth, async (req, res) => {
   try {
     const { analiseId } = req.params;
-    console.log(chalk.blue(analiseId));
+
     const findan = await Analise.findById(analiseId);
-    console.log(chalk.red(findan));
+
     const updatedAnalise = await Analise.findByIdAndUpdate(
       analiseId,
       req.body,
@@ -45,7 +45,7 @@ router.patch("/:analiseId", auth, async (req, res) => {
         new: true,
       }
     );
-    console.log(chalk.green(updatedAnalise));
+
     res.send(updatedAnalise);
   } catch (e) {
     res
