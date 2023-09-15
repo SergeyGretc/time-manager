@@ -22,7 +22,7 @@ const SelectField = (props) => {
           {defaultOption}
         </option>
 
-        {options.map(({ value, label, color }) => (
+        {options.map(({ value, label }) => (
           <option key={value} value={label}>
             {label}
           </option>

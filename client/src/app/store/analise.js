@@ -65,13 +65,10 @@ export const createAnalise = (payload) => async (dispatch) => {
   dispatch(addAnaliseRequested());
 
   try {
-    console.log("content");
     const { content } = await analiseService.createAnalise(payload);
-    console.log(content);
+
     dispatch(analiseCreated(content));
-    console.log(content);
   } catch (error) {
-    console.log(error.message);
     dispatch(analiseRequestFiled(error.message));
   }
 };
@@ -102,12 +99,11 @@ export const removeAnalise = (analiseId) => async (dispatch) => {
 };
 
 export const updateAnalise = (payload, id) => async (dispatch) => {
-  console.log(payload);
   dispatch(analiseUpdateRequested());
 
   try {
     const { content } = await analiseService.update(payload, id);
-    console.log(content);
+
     dispatch(analiseUpdateSuccessed(content));
   } catch (error) {
     dispatch(analiseUpdateFailed(error.message));

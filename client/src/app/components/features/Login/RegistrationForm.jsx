@@ -41,7 +41,7 @@ const RegistrationForm = () => {
   };
 
   const { email, password, name } = values;
-  console.log(errors);
+
   return (
     <FormLayout title="Регистрация">
       <form onSubmit={handleSubmit}>

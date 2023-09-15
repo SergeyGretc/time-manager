@@ -61,7 +61,7 @@ const AnaliseList = () => {
     const newData = allAnaliseProjects.filter(
       (el) => el.projectName === filter
     );
-    console.log(newData);
+
     setFilteredData(newData);
     setCurrentPage(1);
   };
@@ -93,7 +93,6 @@ const AnaliseList = () => {
   };
 
   if (allAnaliseProjects.length) {
-    console.log(sortSign);
     const count = filteredData
       ? filteredData.length
       : allAnaliseProjects.length;

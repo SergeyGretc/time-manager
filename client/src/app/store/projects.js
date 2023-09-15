@@ -84,12 +84,11 @@ export const removeProject = (projectId) => async (dispatch) => {
 };
 
 export const updateProject = (payload, id) => async (dispatch) => {
-  console.log(payload);
   dispatch(projectUpdateRequested());
 
   try {
     const { content } = await projectService.update(payload, id);
-    console.log(content);
+
     dispatch(projectUpdateSuccessed(content));
   } catch (error) {
     dispatch(projectUpdateFailed(error.message));

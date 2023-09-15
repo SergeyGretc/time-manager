@@ -40,8 +40,6 @@ const CreateTask = () => {
       const newData = {
         ...values,
       };
-
-      console.log(userId);
       dispatch(createProject({ ...newData, pageId: userId }));
 
       clearForm();

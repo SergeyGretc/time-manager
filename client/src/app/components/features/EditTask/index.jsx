@@ -47,14 +47,12 @@ const EditorForOneTask = () => {
   useEffect(() => {
     const errors = validate(values, validationSchema);
     setErrors(errors);
-    console.log(values);
   }, [values]);
 
   useEffect(() => {
     setValues({
       ...currentProject,
     });
-    console.log(currentProject);
   }, [currentProject]);
 
   const { projectName } = values;

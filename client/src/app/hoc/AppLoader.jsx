@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  // getCurrentUserId,
   getIsLoggedIn,
   getUsersLoadingStatus,
   loadUsersList,
 } from "../store/users";
 import { loadProjectsList } from "../store/projects";
 import localStorageService from "../services/localStorageService";
+import { loadAnaliseList } from "../store/analise";
 
 const AppLoader = ({ children }) => {
   const dispatch = useDispatch();
@@ -20,6 +20,7 @@ const AppLoader = ({ children }) => {
     if (isLoggedIn) {
       const userId = localStorageService.getUserId();
       dispatch(loadProjectsList(userId));
+      dispatch(loadAnaliseList(userId));
     }
   }, [isLoggedIn, dispatch]);
   if (usersStatusLoading) return "Loading";

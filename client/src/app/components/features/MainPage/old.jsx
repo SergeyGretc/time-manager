@@ -7,12 +7,13 @@ import {
   getProjectsById,
   getProjectsLoadingStatus,
 } from "../../../store/projects";
-import { convertArrForSelector } from "../../../utils/arrayConvertationForSelector";
+
 import { getCurrentUserId } from "../../../store/users";
 import {
   createAnalise,
   getAnaliseById,
   getOneAnaliseByName,
+  loadAnaliseList,
   updateAnalise,
 } from "../../../store/analise";
 import TimerHeader from "./TimerHeader";
@@ -36,17 +37,36 @@ const Timer = () => {
   const getAllProjects = useSelector(getProjectsById(userId));
   const getAnaliseData = useSelector(getOneAnaliseByName(data.projectName));
   const getAllAnalise = useSelector(getAnaliseById(userId));
+  // useEffect(() => {
+  //   dispatch(loadAnaliseList(userId));
+  // }, []);
+  // useEffect(() => {
+  //   const getCurrentAnaliseData = getAllAnalise.find(
+  //     (el) => el.projectName === data.projectName
+  //   );
 
-  useEffect(() => {
-    if (data.projectName) {
-      setCurrentAnaliseData();
-    }
-  }, [data]);
+  //   setValues(getCurrentAnaliseData);
+  // }, [data]);
+  // useEffect(() => {
+  //   if (data.projectName) {
+  //     setCurrentAnaliseData();
+  //   }
+  // }, [data]);
 
   useEffect(() => {
     if (getAllProjects) {
-      const replacedProjectsArray = convertArrForSelector(getAllProjects);
-      setDataProjectsNew(replacedProjectsArray);
+      let arr = [];
+
+      getAllProjects.forEach((el, index) => {
+        let obj = new Object();
+        obj.value = index;
+        obj.label = el.projectName;
+        obj._id = el._id;
+        obj.userId = el.userId;
+        arr.push(obj);
+      });
+
+      setDataProjectsNew(arr);
     }
   }, [isLoading]);
 
@@ -68,8 +88,11 @@ const Timer = () => {
       setVarSec("00");
       setMin((prev) => (prev += 1));
       setStart((prev) => !prev);
+      clearInterval(key);
+      let a = statrSec();
+      setKey(a);
     }
-  }, [sec, min]);
+  }, [sec]);
 
   const buttonInvalidClass = () => {
     if (data.projectName) {
@@ -79,28 +102,28 @@ const Timer = () => {
     return " btn-secondary disabled";
   };
 
-  function startSec() {
-    const timer = setInterval(() => {
+  function statrSec() {
+    return setInterval(() => {
       setSec((prev) => (prev = prev + 1));
-      setKey(timer);
     }, 1000);
-
-    return timer;
   }
-  const runTimer = () => {
+  const secondsTimer = (e) => {
+    e.preventDefault();
     if (data.projectName) {
       if (start === false) {
         setStart((prev) => !prev);
-        startSec();
+        let a = statrSec();
+        setKey(a);
       }
     }
   };
-  const stopAddSeconds = () => {
+  const stopAddSeconds = (e) => {
+    e.preventDefault();
     if (start === true) {
       setStart((prev) => !prev);
-
-      clearInterval(key);
     }
+
+    clearInterval(key);
   };
 
   const setCurrentAnaliseData = () => {
@@ -134,12 +157,12 @@ const Timer = () => {
 
   const handleChange = (e) => {
     e.preventDefault();
-
+    console.log(getAllAnalise);
     const { value, name } = e.target;
     const getCurrentAnaliseData = getAllAnalise.find(
       (el) => el.projectName === value
     );
-
+    console.log(getCurrentAnaliseData);
     setValues(getCurrentAnaliseData);
     setData((prev) => ({
       ...prev,
@@ -188,7 +211,7 @@ const Timer = () => {
         <TimerHeader
           varMin={varMin}
           varSec={varSec}
-          secondsTimer={runTimer}
+          secondsTimer={secondsTimer}
           stopAddSeconds={stopAddSeconds}
         />
 
