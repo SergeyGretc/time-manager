@@ -12,7 +12,6 @@ import { getCurrentUserId } from "../../../store/users";
 import {
   createAnalise,
   getAnaliseById,
-  getOneAnaliseByName,
   updateAnalise,
 } from "../../../store/analise";
 import TimerHeader from "./TimerHeader";
@@ -30,18 +29,19 @@ const Timer = () => {
   const [varSec, setVarSec] = useState("00");
   const [varMin, setVarMin] = useState("00");
   const [start, setStart] = useState(false);
+  const [choosenAnalise, setChoosenAnalise] = useState({});
   const userId = useSelector(getCurrentUserId());
   const dispatch = useDispatch();
   const isLoading = useSelector(getProjectsLoadingStatus());
   const getAllProjects = useSelector(getProjectsById(userId));
-  const getAnaliseData = useSelector(getOneAnaliseByName(data.projectName));
+
   const getAllAnalise = useSelector(getAnaliseById(userId));
 
   useEffect(() => {
-    if (data.projectName) {
+    if (choosenAnalise) {
       setCurrentAnaliseData();
     }
-  }, [data]);
+  }, [choosenAnalise]);
 
   useEffect(() => {
     if (getAllProjects) {
@@ -104,14 +104,14 @@ const Timer = () => {
   };
 
   const setCurrentAnaliseData = () => {
-    if (!getAnaliseData) {
+    if (!choosenAnalise) {
       setSec(0);
       setMin(0);
       setVarSec("00");
       setVarMin("00");
     } else {
-      const currentAnaliseSec = getAnaliseData.sec;
-      const currentAnaliseMin = getAnaliseData.min;
+      const currentAnaliseSec = choosenAnalise.sec;
+      const currentAnaliseMin = choosenAnalise.min;
 
       if (currentAnaliseSec < 10) {
         setVarSec("0" + currentAnaliseSec);
@@ -145,13 +145,17 @@ const Timer = () => {
       ...prev,
       [name]: value,
     }));
+    const filteredAnalise = getAllAnalise.find(
+      (el) => el.projectName === value
+    );
+    setChoosenAnalise(filteredAnalise || null);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (getAnaliseData) {
-      const id = getAnaliseData._id;
+    if (choosenAnalise) {
+      const id = choosenAnalise._id;
       const newData = {
         ...values,
         sec,
