@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import SelectField from "../../SelectField";
 import { useState } from "react";
 import FormLayout from "../../FormLayout";
@@ -19,19 +19,13 @@ const Timer = () => {
   });
   const [values, setValues] = useState({});
   const [timerData, setTimerData] = useState({ sec: 0, min: 0 });
-  // const [sec, setSec] = useState(0);
-  // const [min, setMin] = useState(0);
-  const [key, setKey] = useState(null);
-  // const [varSec, setVarSec] = useState("00");
-  // const [varMin, setVarMin] = useState("00");
-  const [start, setStart] = useState(false);
 
+  const [timerToggled, setToggled] = useState(false);
   const userId = useSelector(getCurrentUserId());
   const dispatch = useDispatch();
-
   const getAllProjects = useSelector(getProjectsById(userId));
-
   const getAllAnalise = useSelector(getAnaliseById(userId));
+  const interval = useRef(null);
 
   useEffect(() => {
     if (timerData.sec > 59) {
@@ -45,40 +39,34 @@ const Timer = () => {
   }, [timerData.sec]);
 
   const buttonInvalidClass = () => {
-    if (start) {
+    if (timerToggled) {
       return " btn-secondary disabled";
     }
     if (data.projectName) {
       return " btn-primary ";
     }
-
     return " btn-secondary disabled";
   };
 
   function startSec() {
-    const timer = setInterval(() => {
+    interval.current = setInterval(() => {
       setTimerData(
         Object.defineProperty(timerData, "sec", { value: timerData.sec + 1 })
       );
-
-      setKey(timer);
     }, 1000);
-
-    return timer;
   }
   const runTimer = () => {
     if (data.projectName) {
-      if (start === false) {
-        setStart((prev) => !prev);
+      if (timerToggled === false) {
+        setToggled((prev) => !prev);
         startSec();
       }
     }
   };
   const stopAddSeconds = () => {
-    if (start === true) {
-      setStart((prev) => !prev);
-
-      clearInterval(key);
+    if (timerToggled) {
+      clearInterval(interval.current);
+      setToggled((prev) => !prev);
     }
   };
 
@@ -97,9 +85,7 @@ const Timer = () => {
 
   const handleChange = (e) => {
     e.preventDefault();
-
     const { value, name } = e.target;
-
     const getCurrentAnaliseData = getAllAnalise.find(
       (el) => el.projectName === value
     );
@@ -109,7 +95,6 @@ const Timer = () => {
       ...prev,
       [name]: value,
     }));
-
     if (getCurrentAnaliseData) {
       setCurrentAnaliseData(getCurrentAnaliseData);
     }
@@ -126,7 +111,6 @@ const Timer = () => {
         sec,
         min,
       };
-
       dispatch(
         updateAnalise(
           {
@@ -143,7 +127,6 @@ const Timer = () => {
       };
       dispatch(createAnalise({ ...newData, pageId: userId }));
     }
-
     setData("");
     setTimerData({ sec: 0, min: 0 });
   };
