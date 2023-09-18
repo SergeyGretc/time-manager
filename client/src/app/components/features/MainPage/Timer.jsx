@@ -3,10 +3,7 @@ import SelectField from "../../SelectField";
 import { useState } from "react";
 import FormLayout from "../../FormLayout";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getProjectsById,
-  getProjectsLoadingStatus,
-} from "../../../store/projects";
+import { getProjectsById } from "../../../store/projects";
 import { convertArrForSelector } from "../../../utils/arrayConvertationForSelector";
 import { getCurrentUserId } from "../../../store/users";
 import {
@@ -21,12 +18,12 @@ const Timer = () => {
     projectName: "",
   });
   const [values, setValues] = useState({});
-
-  const [sec, setSec] = useState(0);
-  const [min, setMin] = useState(0);
+  const [timerData, setTimerData] = useState({ sec: 0, min: 0 });
+  // const [sec, setSec] = useState(0);
+  // const [min, setMin] = useState(0);
   const [key, setKey] = useState(null);
-  const [varSec, setVarSec] = useState("00");
-  const [varMin, setVarMin] = useState("00");
+  // const [varSec, setVarSec] = useState("00");
+  // const [varMin, setVarMin] = useState("00");
   const [start, setStart] = useState(false);
 
   const userId = useSelector(getCurrentUserId());
@@ -37,27 +34,20 @@ const Timer = () => {
   const getAllAnalise = useSelector(getAnaliseById(userId));
 
   useEffect(() => {
-    if (sec < 10) {
-      setVarSec("0" + sec);
+    if (timerData.sec > 59) {
+      setTimerData(
+        Object.defineProperties(timerData, {
+          sec: { value: 0 },
+          min: { value: timerData.min + 1 },
+        })
+      );
     }
-    if (min < 10) {
-      setVarMin("0" + min);
-    }
-    if (sec >= 10) {
-      setVarSec(sec);
-    }
-    if (min >= 10) {
-      setVarMin(min);
-    }
-    if (sec > 59) {
-      setSec(0);
-      setVarSec("00");
-      setMin((prev) => (prev += 1));
-      setStart((prev) => !prev);
-    }
-  }, [sec, min]);
+  }, [timerData.sec]);
 
   const buttonInvalidClass = () => {
+    if (start) {
+      return " btn-secondary disabled";
+    }
     if (data.projectName) {
       return " btn-primary ";
     }
@@ -67,7 +57,9 @@ const Timer = () => {
 
   function startSec() {
     const timer = setInterval(() => {
-      setSec((prev) => (prev = prev + 1));
+      setTimerData(
+        Object.defineProperty(timerData, "sec", { value: timerData.sec + 1 })
+      );
 
       setKey(timer);
     }, 1000);
@@ -92,26 +84,14 @@ const Timer = () => {
 
   const setCurrentAnaliseData = (values) => {
     if (!values) {
-      setSec(0);
-      setMin(0);
-      setVarSec("00");
-      setVarMin("00");
+      setTimerData({ sec: 0, min: 0 });
     } else {
-      const currentAnaliseSec = values.sec;
-      const currentAnaliseMin = values.min;
-
-      if (currentAnaliseSec < 10) {
-        setSec(currentAnaliseSec);
-      }
-      if (currentAnaliseMin < 10) {
-        setMin(currentAnaliseMin);
-      }
-      if (currentAnaliseSec >= 10) {
-        setSec(currentAnaliseSec);
-      }
-      if (currentAnaliseMin >= 10) {
-        setMin(currentAnaliseMin);
-      }
+      setTimerData((prev) =>
+        Object.defineProperties(prev, {
+          sec: { value: values.sec },
+          min: { value: values.min },
+        })
+      );
     }
   };
 
@@ -137,7 +117,8 @@ const Timer = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    const sec = timerData.sec;
+    const min = timerData.min;
     if (values) {
       const id = values._id;
       const newData = {
@@ -164,10 +145,7 @@ const Timer = () => {
     }
 
     setData("");
-    setSec(0);
-    setMin(0);
-    setVarSec("00");
-    setVarMin("00");
+    setTimerData({ sec: 0, min: 0 });
   };
 
   if (getAllProjects) {
@@ -175,8 +153,8 @@ const Timer = () => {
     return (
       <FormLayout title="Таймер">
         <TimerHeader
-          varMin={varMin}
-          varSec={varSec}
+          varMin={timerData.min}
+          varSec={timerData.sec}
           secondsTimer={runTimer}
           stopAddSeconds={stopAddSeconds}
         />
