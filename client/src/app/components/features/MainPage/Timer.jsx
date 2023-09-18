@@ -22,33 +22,19 @@ const Timer = () => {
   });
   const [values, setValues] = useState({});
 
-  const [dataProjectsNew, setDataProjectsNew] = useState([]);
   const [sec, setSec] = useState(0);
   const [min, setMin] = useState(0);
   const [key, setKey] = useState(null);
   const [varSec, setVarSec] = useState("00");
   const [varMin, setVarMin] = useState("00");
   const [start, setStart] = useState(false);
-  const [choosenAnalise, setChoosenAnalise] = useState({});
+
   const userId = useSelector(getCurrentUserId());
   const dispatch = useDispatch();
-  const isLoading = useSelector(getProjectsLoadingStatus());
+
   const getAllProjects = useSelector(getProjectsById(userId));
 
   const getAllAnalise = useSelector(getAnaliseById(userId));
-
-  useEffect(() => {
-    if (choosenAnalise) {
-      setCurrentAnaliseData();
-    }
-  }, [choosenAnalise]);
-
-  useEffect(() => {
-    if (getAllProjects) {
-      const replacedProjectsArray = convertArrForSelector(getAllProjects);
-      setDataProjectsNew(replacedProjectsArray);
-    }
-  }, [isLoading]);
 
   useEffect(() => {
     if (sec < 10) {
@@ -82,6 +68,7 @@ const Timer = () => {
   function startSec() {
     const timer = setInterval(() => {
       setSec((prev) => (prev = prev + 1));
+
       setKey(timer);
     }, 1000);
 
@@ -103,30 +90,26 @@ const Timer = () => {
     }
   };
 
-  const setCurrentAnaliseData = () => {
-    if (!choosenAnalise) {
+  const setCurrentAnaliseData = (values) => {
+    if (!values) {
       setSec(0);
       setMin(0);
       setVarSec("00");
       setVarMin("00");
     } else {
-      const currentAnaliseSec = choosenAnalise.sec;
-      const currentAnaliseMin = choosenAnalise.min;
+      const currentAnaliseSec = values.sec;
+      const currentAnaliseMin = values.min;
 
       if (currentAnaliseSec < 10) {
-        setVarSec("0" + currentAnaliseSec);
         setSec(currentAnaliseSec);
       }
       if (currentAnaliseMin < 10) {
-        setVarMin("0" + currentAnaliseMin);
         setMin(currentAnaliseMin);
       }
       if (currentAnaliseSec >= 10) {
-        setVarSec(currentAnaliseSec);
         setSec(currentAnaliseSec);
       }
       if (currentAnaliseMin >= 10) {
-        setVarMin(currentAnaliseMin);
         setMin(currentAnaliseMin);
       }
     }
@@ -136,26 +119,27 @@ const Timer = () => {
     e.preventDefault();
 
     const { value, name } = e.target;
+
     const getCurrentAnaliseData = getAllAnalise.find(
       (el) => el.projectName === value
     );
 
-    setValues(getCurrentAnaliseData);
+    setValues(getCurrentAnaliseData || null);
     setData((prev) => ({
       ...prev,
       [name]: value,
     }));
-    const filteredAnalise = getAllAnalise.find(
-      (el) => el.projectName === value
-    );
-    setChoosenAnalise(filteredAnalise || null);
+
+    if (getCurrentAnaliseData) {
+      setCurrentAnaliseData(getCurrentAnaliseData);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (choosenAnalise) {
-      const id = choosenAnalise._id;
+    if (values) {
+      const id = values._id;
       const newData = {
         ...values,
         sec,
@@ -186,7 +170,8 @@ const Timer = () => {
     setVarMin("00");
   };
 
-  if (dataProjectsNew) {
+  if (getAllProjects) {
+    const replacedProjectsArray = convertArrForSelector(getAllProjects);
     return (
       <FormLayout title="Таймер">
         <TimerHeader
@@ -201,7 +186,7 @@ const Timer = () => {
           name="projectName"
           value={data.projectName || ""}
           onChange={handleChange}
-          options={dataProjectsNew}
+          options={replacedProjectsArray}
           defaultOption="Выберите проект"
         />
 
