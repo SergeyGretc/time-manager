@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import SelectField from "../../SelectField";
 import { useState } from "react";
 import FormLayout from "../../FormLayout";
@@ -14,29 +14,17 @@ import {
 import TimerHeader from "./TimerHeader";
 
 const Timer = () => {
+  const [date, setDate] = useState(0);
   const [data, setData] = useState({
     projectName: "",
   });
   const [values, setValues] = useState({});
-  const [timerData, setTimerData] = useState({ sec: 0, min: 0 });
-
   const [timerToggled, setToggled] = useState(false);
   const userId = useSelector(getCurrentUserId());
   const dispatch = useDispatch();
   const getAllProjects = useSelector(getProjectsById(userId));
   const getAllAnalise = useSelector(getAnaliseById(userId));
   const interval = useRef(null);
-
-  useEffect(() => {
-    if (timerData.sec > 59) {
-      setTimerData(
-        Object.defineProperties(timerData, {
-          sec: { value: 0 },
-          min: { value: timerData.min + 1 },
-        })
-      );
-    }
-  }, [timerData.sec]);
 
   const buttonInvalidClass = () => {
     if (timerToggled) {
@@ -50,9 +38,7 @@ const Timer = () => {
 
   function startSec() {
     interval.current = setInterval(() => {
-      setTimerData(
-        Object.defineProperty(timerData, "sec", { value: timerData.sec + 1 })
-      );
+      setDate((d) => d + 1000);
     }, 1000);
   }
   const runTimer = () => {
@@ -72,14 +58,9 @@ const Timer = () => {
 
   const setCurrentAnaliseData = (values) => {
     if (!values) {
-      setTimerData({ sec: 0, min: 0 });
+      setDate(0);
     } else {
-      setTimerData((prev) =>
-        Object.defineProperties(prev, {
-          sec: { value: values.sec },
-          min: { value: values.min },
-        })
-      );
+      setDate((values.min * 60 + values.sec) * 1000);
     }
   };
 
@@ -102,8 +83,8 @@ const Timer = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const sec = timerData.sec;
-    const min = timerData.min;
+    const sec = new Date(date).getSeconds();
+    const min = new Date(date).getMinutes();
     if (values) {
       const id = values._id;
       const newData = {
@@ -128,20 +109,20 @@ const Timer = () => {
       dispatch(createAnalise({ ...newData, pageId: userId }));
     }
     setData("");
-    setTimerData({ sec: 0, min: 0 });
+    setDate(0);
   };
 
   if (getAllProjects) {
     const replacedProjectsArray = convertArrForSelector(getAllProjects);
+
     return (
       <FormLayout title="Таймер">
         <TimerHeader
-          varMin={timerData.min}
-          varSec={timerData.sec}
+          varMin={new Date(date).getMinutes()}
+          varSec={new Date(date).getSeconds()}
           secondsTimer={runTimer}
           stopAddSeconds={stopAddSeconds}
         />
-
         <SelectField
           label=""
           name="projectName"
