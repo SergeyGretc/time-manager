@@ -2,7 +2,7 @@ const express = require("express");
 const Analise = require("../models/analise");
 const auth = require("../middleware/auth.middleware");
 const router = express.Router({ mergeParams: true });
-const chalk = require("chalk");
+
 router
   .route("/")
   .get(auth, async (req, res) => {
